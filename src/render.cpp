@@ -4,48 +4,54 @@
 #define HEIGHT 720.0f
 #define RATIO WIDTH / HEIGHT
 
+#include <boost/graph/adjacency_list.hpp>
+#include <boost/graph/fruchterman_reingold.hpp>
+#include <boost/graph/labeled_graph.hpp>
+#include <boost/graph/random_layout.hpp>
+#include <boost/graph/topology.hpp>
 #include <cstdlib>
 #include <GLFW/glfw3.h>
 #include <stdio.h>
 #include <vector>
 
-typedef struct {
-    float x;
-    float y;
-} Node;
-
-typedef struct {
-    Node *source;
-    Node *target;
-} Edge;
-
-class Graph {
-    public:
-        std::vector<Node *> nodes;
-        std::vector<Edge *> edges;
+struct Vertex {
+    boost::rectangle_topology<>::point_type position;
+};
+struct Edge {
 };
 
-Graph *generate()
+typedef boost::labeled_graph<boost::adjacency_list<boost::setS, boost::vecS, boost::undirectedS, Vertex, Edge>, std::string> Graph;
+typedef boost::graph_traits<Graph>::vertex_iterator VertexIterator;
+typedef boost::graph_traits<Graph>::edge_iterator EdgeIterator;
+
+void
+generateGraph(Graph& graph)
 {
-    Graph *graph;
-    Node *node;
+    for (int i = 1; i < 3; i++) {
+        Vertex v;
+        // v.position[0] = -100.0f + static_cast<float> (rand()) /(static_cast <float>(RAND_MAX/(100.0f+100.0f)));
+        // v.position[1] = -100.0f + static_cast<float> (rand()) /(static_cast <float>(RAND_MAX/(100.0f+100.0f)));
 
-    graph = new Graph();
-
-    for (int i = 0; i < 50000; i++) {
-        node = new Node();
-        node->x = -100.0f + static_cast<float> (rand()) /(static_cast <float>(RAND_MAX/(100.0f+100.0f)));
-        node->y = -100.0f + static_cast<float> (rand()) /(static_cast <float>(RAND_MAX/(100.0f+100.0f)));
-
-        graph->nodes.push_back(node);
+        boost::add_vertex(std::to_string(i), v, graph);
     }
 
-    return graph;
+    boost::add_edge_by_label("1", "2", graph);
+    boost::add_edge_by_label("2", "1", graph);
 }
 
-void draw(Graph *graph_)
+void
+updateGraph(Graph& graph)
 {
-    Graph *graph = generate();
+    boost::rectangle_topology<> t = boost::rectangle_topology<>(-100, -100, 100, 100);
+    boost::random_graph_layout(graph, boost::get(&Vertex::position, graph), t);
+    boost::fruchterman_reingold_force_directed_layout(graph, boost::get(&Vertex::position, graph), t);
+}
+
+void
+renderGraph(Graph graph)
+{
+    std::pair<VertexIterator, VertexIterator> vertex_pair;
+    EdgeIterator edge_iterator, edge_iterator_end;
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -58,26 +64,43 @@ void draw(Graph *graph_)
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    for (int i = 0; i < graph->nodes.size(); i++) {
-        Node *node = graph->nodes.at(i);
+    // Vertices.
+    for (vertex_pair = boost::vertices(graph); vertex_pair.first != vertex_pair.second; ++vertex_pair.first) {
+        Vertex vertex = graph.graph()[*vertex_pair.first];
 
-        glPointSize(2.0f);
+        glPointSize(5.0f);
         glBegin(GL_POINTS);
         glColor3f(0.0f, 0.0f, 0.0f);
-        glVertex2f(node->x, node->y);
+        glVertex2f(vertex.position[0], vertex.position[1]);
         glEnd();
     }
 
-    delete graph;
+    // Edges.
+    for (boost::tie(edge_iterator, edge_iterator_end) = boost::edges(graph); edge_iterator != edge_iterator_end; ++edge_iterator) {
+        Vertex vertex_source = graph.graph()[source(*edge_iterator, graph)];
+        Vertex vertex_target = graph.graph()[target(*edge_iterator, graph)];
+
+        glBegin(GL_LINES);
+        glColor3f(0.0f, 0.0f, 0.0f);
+        glVertex2f(vertex_source.position[0], vertex_source.position[1]);
+        glVertex2f(vertex_target.position[0], vertex_target.position[1]);
+        glEnd();
+    }
+
+    glBegin(GL_LINE_LOOP);
+    glColor3f(0.0f, 0.0f, 0.0f);
+    glVertex2f(-100.0f, -100.0f);
+    glVertex2f(100.0f, -100.0f);
+    glVertex2f(100.0f, 100.0f);
+    glVertex2f(-100.0f, 100.0f);
+    glEnd();
 }
 
-int main(void)
+void
+drawGraph(Graph graph)
 {
-    Graph *graph;
-    GLFWwindow *window;
+    GLFWwindow* window;
     double time;
-
-    graph = generate();
 
     glfwInit();
     window = glfwCreateWindow(WIDTH, HEIGHT, "", NULL, NULL);
@@ -87,15 +110,25 @@ int main(void)
     while (!glfwWindowShouldClose(window))
     {
         time = glfwGetTime();
+        renderGraph(graph);
 
-        draw(graph);
         while (glfwGetTime() < time + 1.0/60.0) {
         }
-
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
     glfwTerminate();
-    return 0;
+}
+
+int
+main(void)
+{
+    Graph graph;
+
+    generateGraph(graph);
+    updateGraph(graph);
+    drawGraph(graph);
+
+    return EXIT_SUCCESS;
 }

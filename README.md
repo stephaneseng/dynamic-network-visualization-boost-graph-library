@@ -2,12 +2,24 @@
 
 ## Requirements
 
-* OpenGL 2?
+* OpenGL 2
+* libboost-date-time-dev
 * libboost-graph-dev
+* libboost-program-options-dev
 * libglfw3
 * libglfw3-dev
 
-# Libraries
+# Reference
+
+## CSV time-series files
+
+* The file MUST start with an header
+* Entries MUST be sorted by time, by chronological order
+* Lines MUST end with "\n" (UNIX line endings, not "\r\n")
+
+# Vocabulary
+
+## Graph
 
 | Product | Vocabulary | References |
 | ------- | ---------- | ---------- |
@@ -21,6 +33,17 @@
 | Boost | Vertices, Edges | https://www.boost.org/doc/libs/1_72_0/libs/graph/doc/Graph.html |
 | GraphStream | Nodes, Edges | http://graphstream-project.org/doc/Advanced-Concepts/The-DGS-File-Format/ |
 | graph-tool| Vertices, Nodes, Edges | https://graph-tool.skewed.de/static/doc/gt_format.html |
+
+## Stream
+
+| Product | Vocabulary | References |
+| ------- | ---------- | ---------- |
+| C++ | read | http://www.cplusplus.com/reference/istream/istream/read/ |
+| Java | read | https://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html |
+| Python | read | https://docs.python.org/3/library/io.html#io.BufferedReader.read |
+| .NET | read | https://docs.microsoft.com/en-us/dotnet/api/system.io.stream.read?view=netframework-4.8 |
+| Cypher | consume | https://neo4j.com/docs/labs/neo4j-streams/3.5/procedures/#_streams_consume |
+| RabbitMQ | get | https://www.rabbitmq.com/api-guide.html#getting |
 
 # Literature
 

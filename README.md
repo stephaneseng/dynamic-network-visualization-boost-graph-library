@@ -1,6 +1,12 @@
-# Installation
+# dynamic-network-visualization-boost-graph-library
 
-## Requirements
+Generate dynamic networks visualizations using the [Boost Graph Library](https://www.boost.org/doc/libs/release/libs/graph/doc/index.html).
+
+![doc/2010-11-01-2011-04-01.gif](doc/2010-11-01-2011-04-01.gif)
+
+## Getting started
+
+### 0. Requirements
 
 * OpenGL 2
 * libboost-date-time-dev
@@ -9,51 +15,32 @@
 * libglfw3
 * libglfw3-dev
 
-# Reference
+### 1. Data preparation
 
-## CSV time-series files
+The [doc/vertices.csv](doc/vertices.csv) and [doc/edges.csv](doc/edges.csv) CSV files are given as an example of the expected file format.
 
+Note that:
+
+* These files have been generated from the [Bitcoin Alpha trust weighted signed network](http://snap.stanford.edu/data/soc-sign-bitcoin-alpha.html) distributed by the [Stanford Network Analysis Project](http://snap.stanford.edu/index.html)
 * The file MUST start with an header
 * Entries MUST be sorted by time, by chronological order
-* Lines MUST end with "\n" (UNIX line endings, not "\r\n")
 
-# Vocabulary
+### 2. Build
 
-## Graph
+```
+$ make
+```
 
-| Product | Vocabulary | References |
-| ------- | ---------- | ---------- |
-| Gephi | Nodes, Edges, <[2019-01-01, Infinity]> | https://gephi.org/gexf/format/index.html |
-| Neo4j | Nodes, Relationships | https://neo4j.com/docs/getting-started/current/ |
-| sigma.js | Nodes, Edges | https://github.com/jacomyal/sigma.js/wiki/Graph-API |
-| KeyLines | Nodes, Links | https://cambridge-intelligence.com/keylines/ |
-| GraphViz | Nodes, Edges | https://graphviz.gitlab.io/_pages/doc/info/lang.html |
-| pm, ngraph.graph | Nodes, Links, Edges | https://github.com/anvaka/ngraph.graph |
-| vis-network | Nodes, Edges | https://github.com/visjs/vis-network |
-| Boost | Vertices, Edges | https://www.boost.org/doc/libs/1_72_0/libs/graph/doc/Graph.html |
-| GraphStream | Nodes, Edges | http://graphstream-project.org/doc/Advanced-Concepts/The-DGS-File-Format/ |
-| graph-tool| Vertices, Nodes, Edges | https://graph-tool.skewed.de/static/doc/gt_format.html |
+### 3. Run
 
-## Stream
+Using the example dataset and for the events happening between 2010-11-01 and 2011-04-01, month per month:
 
-| Product | Vocabulary | References |
-| ------- | ---------- | ---------- |
-| C++ | read | http://www.cplusplus.com/reference/istream/istream/read/ |
-| Java | read | https://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html |
-| Python | read | https://docs.python.org/3/library/io.html#io.BufferedReader.read |
-| .NET | read | https://docs.microsoft.com/en-us/dotnet/api/system.io.stream.read?view=netframework-4.8 |
-| Cypher | consume | https://neo4j.com/docs/labs/neo4j-streams/3.5/procedures/#_streams_consume |
-| RabbitMQ | get | https://www.rabbitmq.com/api-guide.html#getting |
+```
+$ ./build/main --vertices_file_path doc/vertices.csv --edges_file_path doc/edges.csv --start_date 2010-11-01 --end_date 2011-04-01
+```
 
-# Literature
+## References
 
-| Authors | Vocabulary | References |
-| ------- | ---------- | ---------- |
-| Jure Leskovec | Nodes, Edges | https://web.stanford.edu/class/cs224w/ |
-| David Easley, Jon Kleinberg | Nodes, Edges | http://www.cs.cornell.edu/home/kleinber/networks-book/ |
-
-# Boost Quick Start
-
-* [Documentation](https://www.boost.org/doc/libs/1_72_0/libs/graph/doc/table_of_contents.html)
-* [adjacency_list](https://www.boost.org/doc/libs/1_72_0/libs/graph/doc/adjacency_list.html), [Using adjacency_list](https://www.boost.org/doc/libs/1_72_0/libs/graph/doc/using_adjacency_list.html)
-* [labeled_graph](https://stackoverflow.com/a/2248090)
+* J. Leskovec, A. Krevl. SNAP Datasets: Stanford Large Network Dataset Collection. http://snap.stanford.edu/data, 2014
+* S. Kumar, F. Spezzano, V.S. Subrahmanian, C. Faloutsos. Edge Weight Prediction in Weighted Signed Networks. IEEE International Conference on Data Mining (ICDM), 2016
+* S. Kumar, B. Hooi, D. Makhija, M. Kumar, V.S. Subrahmanian, C. Faloutsos. REV2: Fraudulent User Prediction in Rating Platforms. 11th ACM International Conference on Web Searchand Data Mining (WSDM), 2018

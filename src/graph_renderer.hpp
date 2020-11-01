@@ -8,12 +8,14 @@
 class GraphRenderer
 {
 public:
-    GraphRenderer();
+    GraphRenderer(float eye_z, float topology_scaling);
     ~GraphRenderer();
     void render(Graph graph);
 
 private:
-    GLFWwindow* window_;
+    GLFWwindow *window_;
+    float eye_z_;
+    float topology_scaling_;
     void initialize_glfw();
     void deinitialize_glfw();
 };

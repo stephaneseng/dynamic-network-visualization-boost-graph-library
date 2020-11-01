@@ -9,8 +9,11 @@
 #include "graph_event_queue.hpp"
 #include "graph_renderer.hpp"
 
-int
-main(int argc, char *argv[])
+const double ANIMATOR_STEPS_PER_MONTH = 60.0;
+const float RENDERER_EYE_Z = 500.0f;
+const double TOPOLOGY_SCALING = 100.0;
+
+int main(int argc, char *argv[])
 {
     std::string vertices_file_path;
     std::string edges_file_path;
@@ -30,22 +33,32 @@ main(int argc, char *argv[])
     Graph graph;
     GraphAnimator graph_animator;
     GraphEventQueue graph_event_queue(vertices_file_path, edges_file_path);
-    GraphRenderer graph_renderer;
+    GraphRenderer graph_renderer(RENDERER_EYE_Z, TOPOLOGY_SCALING);
+    boost::rectangle_topology<> topology = boost::rectangle_topology<>(-TOPOLOGY_SCALING, -TOPOLOGY_SCALING, TOPOLOGY_SCALING, TOPOLOGY_SCALING);
 
     for (
-        boost::gregorian::day_iterator day_iterator(boost::gregorian::from_simple_string(start_date), 1);
-        *day_iterator < boost::gregorian::from_simple_string(end_date);
-        ++day_iterator)
+        boost::gregorian::month_iterator month_iterator(boost::gregorian::from_simple_string(start_date), 1);
+        *month_iterator < boost::gregorian::from_simple_string(end_date);
+        ++month_iterator)
     {
-        boost::gregorian::date date = *day_iterator;
+        boost::gregorian::date date = *month_iterator;
 
-        graph_animator.update(graph, graph_event_queue, date);
-        graph_renderer.render(graph);
+        graph_animator.add_vertices_edges(graph, graph_event_queue, date, topology);
+        graph_animator.update_target_layout(graph, topology);
 
-        std::cout << "Date: " << date;
-        std::cout << ", Vertices: " << boost::num_vertices(graph);
-        std::cout << ", Edges: " << boost::num_edges(graph) << std::endl;
+        std::cout
+            << "Date: " << date
+            << ", Vertices: " << boost::num_vertices(graph)
+            << ", Edges: " << boost::num_edges(graph)
+            << std::endl;
+
+        for (int i = 0; i < ANIMATOR_STEPS_PER_MONTH; i++)
+        {
+            graph_animator.update_layout(graph, topology, 1 / ANIMATOR_STEPS_PER_MONTH);
+            graph_renderer.render(graph);
+        }
     }
 
+    sleep(1);
     return EXIT_SUCCESS;
 }

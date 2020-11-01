@@ -15,3 +15,9 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.cpp $(DEPS)
 
 $(TARGET): $(OBJECTS)
 	$(CXX) -o $@ $(OBJECTS) $(LDFLAGS)
+
+clean:
+	rm -f $(BUILDDIR)/*
+
+run:
+	./build/main --vertices_file_path doc/vertices.csv --edges_file_path doc/edges.csv --start_date 2010-11-01 --end_date 2011-04-01

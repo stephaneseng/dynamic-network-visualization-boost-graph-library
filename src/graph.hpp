@@ -7,13 +7,16 @@
 #include <boost/graph/topology.hpp>
 #include <string>
 
-struct Vertex {
+struct Vertex
+{
     boost::gregorian::date date;
     std::string id;
     boost::rectangle_topology<>::point_type position;
+    boost::rectangle_topology<>::point_type target_position;
 };
 
-struct Edge {
+struct Edge
+{
     boost::gregorian::date date;
     std::string source;
     std::string target;

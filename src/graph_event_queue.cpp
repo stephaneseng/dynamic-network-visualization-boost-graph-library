@@ -3,9 +3,9 @@
 
 #include "graph_event_queue.hpp"
 
-typedef boost::tokenizer<boost::char_separator<char> > Tokenizer;
+typedef boost::tokenizer<boost::char_separator<char>> Tokenizer;
 
-const char* CSV_SEPARATORS = ",";
+const char *CSV_SEPARATORS = ",";
 
 GraphEventQueue::GraphEventQueue(std::string vertices_file_path, std::string edges_file_path)
 {
@@ -18,7 +18,8 @@ GraphEventQueue::pop_vertices(boost::gregorian::date date)
 {
     std::vector<Vertex> vertices;
 
-    while ((!vertices_.empty()) && (vertices_.front().date <= date)) {
+    while ((!vertices_.empty()) && (vertices_.front().date <= date))
+    {
         vertices.push_back(vertices_.front());
         vertices_.pop();
     }
@@ -31,7 +32,8 @@ GraphEventQueue::pop_edges(boost::gregorian::date date)
 {
     std::vector<Edge> edges;
 
-    while ((!edges_.empty()) && (edges_.front().date <= date)) {
+    while ((!edges_.empty()) && (edges_.front().date <= date))
+    {
         edges.push_back(edges_.front());
         edges_.pop();
     }
@@ -39,8 +41,7 @@ GraphEventQueue::pop_edges(boost::gregorian::date date)
     return edges;
 }
 
-void
-GraphEventQueue::load_vertices(std::string file_path)
+void GraphEventQueue::load_vertices(std::string file_path)
 {
     std::ifstream file(file_path);
     std::string line;
@@ -55,8 +56,7 @@ GraphEventQueue::load_vertices(std::string file_path)
     }
 }
 
-void
-GraphEventQueue::load_edges(std::string file_path)
+void GraphEventQueue::load_edges(std::string file_path)
 {
     std::ifstream file(file_path);
     std::string line;

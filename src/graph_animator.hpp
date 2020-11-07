@@ -10,7 +10,7 @@ class GraphAnimator
 {
 public:
     void add_vertices_edges(Graph &graph, GraphEventQueue &graph_event_queue, boost::gregorian::date date, boost::rectangle_topology<> topology);
-    void update_target_layout(Graph &graph, boost::rectangle_topology<> topology);
+    void evaluate_target_layout(Graph &graph, boost::rectangle_topology<> topology);
     void update_layout(Graph &graph, boost::rectangle_topology<> topology, double step);
 };
 

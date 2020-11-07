@@ -33,7 +33,7 @@ void GraphAnimator::add_vertices_edges(Graph &graph, GraphEventQueue &graph_even
     }
 }
 
-void GraphAnimator::update_target_layout(Graph &graph, boost::rectangle_topology<> topology)
+void GraphAnimator::evaluate_target_layout(Graph &graph, boost::rectangle_topology<> topology)
 {
     boost::fruchterman_reingold_force_directed_layout(graph, boost::get(&Vertex::target_position, graph), topology);
 }

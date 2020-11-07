@@ -13,8 +13,7 @@ GraphEventQueue::GraphEventQueue(std::string vertices_file_path, std::string edg
     load_edges(edges_file_path);
 }
 
-std::vector<Vertex>
-GraphEventQueue::pop_vertices(boost::gregorian::date date)
+std::vector<Vertex> GraphEventQueue::pop_vertices(boost::gregorian::date date)
 {
     std::vector<Vertex> vertices;
 
@@ -27,8 +26,7 @@ GraphEventQueue::pop_vertices(boost::gregorian::date date)
     return vertices;
 }
 
-std::vector<Edge>
-GraphEventQueue::pop_edges(boost::gregorian::date date)
+std::vector<Edge> GraphEventQueue::pop_edges(boost::gregorian::date date)
 {
     std::vector<Edge> edges;
 

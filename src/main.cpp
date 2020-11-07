@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
         boost::gregorian::date date = *month_iterator;
 
         graph_animator.add_vertices_edges(graph, graph_event_queue, date, topology);
-        graph_animator.update_target_layout(graph, topology);
+        graph_animator.evaluate_target_layout(graph, topology);
 
         std::cout
             << "Date: " << date

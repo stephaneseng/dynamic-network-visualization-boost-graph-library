@@ -14,4 +14,20 @@ public:
     void update_layout(Graph &graph, boost::rectangle_topology<> topology, double step);
 };
 
+// Weaker repulsive force than the default one.
+// See https://www.boost.org/doc/libs/1_65_0/boost/graph/fruchterman_reingold.hpp.
+struct custom_repulsive_force
+{
+    template<typename Graph, typename T>
+    T
+    operator()(typename boost::graph_traits<Graph>::vertex_descriptor,
+               typename boost::graph_traits<Graph>::vertex_descriptor,
+               T k,
+               T d,
+               const Graph&) const
+    {
+        return k / d;
+    }
+};
+
 #endif

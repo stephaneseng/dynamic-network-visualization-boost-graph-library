@@ -15,8 +15,8 @@ void GraphAnimator::add_vertices_edges(Graph &graph, GraphEventQueue &graph_even
         ++vertex_iterator)
     {
         Vertex vertex = *vertex_iterator;
-        vertex.position = topology.random_point();
-        vertex.target_position = vertex.position;
+        vertex.position = topology.center();
+        vertex.target_position = topology.center();
 
         boost::add_vertex(vertex.id, vertex, graph);
     }
@@ -35,7 +35,11 @@ void GraphAnimator::add_vertices_edges(Graph &graph, GraphEventQueue &graph_even
 
 void GraphAnimator::evaluate_target_layout(Graph &graph, boost::rectangle_topology<> topology)
 {
-    boost::fruchterman_reingold_force_directed_layout(graph, boost::get(&Vertex::target_position, graph), topology);
+    boost::fruchterman_reingold_force_directed_layout(
+        graph,
+        boost::get(&Vertex::target_position, graph),
+        topology,
+        boost::repulsive_force(custom_repulsive_force()));
 }
 
 void GraphAnimator::update_layout(Graph &graph, boost::rectangle_topology<> topology, double step)

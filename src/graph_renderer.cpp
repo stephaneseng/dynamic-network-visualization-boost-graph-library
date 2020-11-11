@@ -68,15 +68,6 @@ void GraphRenderer::render(Graph graph)
         glEnd();
     }
 
-    // Debug: Render topology bounds.
-    glBegin(GL_LINE_LOOP);
-    glColor4f(0.0f, 0.0f, 0.0f, 0.1f);
-    glVertex2f(-topology_scaling_, -topology_scaling_);
-    glVertex2f(topology_scaling_, -topology_scaling_);
-    glVertex2f(topology_scaling_, topology_scaling_);
-    glVertex2f(-topology_scaling_, topology_scaling_);
-    glEnd();
-
     glfwSwapBuffers(window_);
     glfwPollEvents();
 }

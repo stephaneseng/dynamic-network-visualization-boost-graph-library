@@ -3,7 +3,7 @@
 
 #include "graph_animator.hpp"
 
-void GraphAnimator::add_vertices_edges(Graph &graph, GraphEventQueue &graph_event_queue, boost::gregorian::date date, boost::rectangle_topology<> topology)
+void GraphAnimator::add_vertices_edges(Graph &graph, GraphEventQueue &graph_event_queue, boost::gregorian::date date, boost::circle_topology<> topology)
 {
     std::vector<Vertex> vertices = graph_event_queue.pop_vertices(date);
     std::vector<Edge> edges = graph_event_queue.pop_edges(date);
@@ -33,7 +33,7 @@ void GraphAnimator::add_vertices_edges(Graph &graph, GraphEventQueue &graph_even
     }
 }
 
-void GraphAnimator::evaluate_target_layout(Graph &graph, boost::rectangle_topology<> topology)
+void GraphAnimator::evaluate_target_layout(Graph &graph, boost::circle_topology<> topology)
 {
     boost::fruchterman_reingold_force_directed_layout(
         graph,
@@ -42,7 +42,7 @@ void GraphAnimator::evaluate_target_layout(Graph &graph, boost::rectangle_topolo
         boost::repulsive_force(custom_repulsive_force()));
 }
 
-void GraphAnimator::update_layout(Graph &graph, boost::rectangle_topology<> topology, double step)
+void GraphAnimator::update_layout(Graph &graph, boost::circle_topology<> topology, double step)
 {
     VertexIterator vertex_iterator, vertex_iterator_end;
     for (

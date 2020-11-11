@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     GraphAnimator graph_animator;
     GraphEventQueue graph_event_queue(vertices_file_path, edges_file_path);
     GraphRenderer graph_renderer(RENDERER_EYE_Z, TOPOLOGY_SCALING);
-    boost::rectangle_topology<> topology = boost::rectangle_topology<>(-TOPOLOGY_SCALING, -TOPOLOGY_SCALING, TOPOLOGY_SCALING, TOPOLOGY_SCALING);
+    boost::circle_topology<> topology = boost::circle_topology<>(TOPOLOGY_SCALING);
 
     for (
         boost::gregorian::month_iterator month_iterator(boost::gregorian::from_simple_string(start_date), 1);
@@ -59,6 +59,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    sleep(1);
+    sleep(5);
     return EXIT_SUCCESS;
 }

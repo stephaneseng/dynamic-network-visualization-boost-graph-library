@@ -9,7 +9,7 @@
 #include "graph_event_queue.hpp"
 #include "graph_renderer.hpp"
 
-const double ANIMATOR_STEPS_PER_MONTH = 60.0;
+const double ANIMATOR_STEPS_PER_MONTH = 120.0;
 const float RENDERER_EYE_Z = 500.0f;
 const double TOPOLOGY_SCALING = 100.0;
 
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 
         for (int i = 0; i < ANIMATOR_STEPS_PER_MONTH; i++)
         {
-            graph_animator.update_layout(graph, topology, 1 / ANIMATOR_STEPS_PER_MONTH);
+            graph_animator.update_layout(graph, topology, i / ANIMATOR_STEPS_PER_MONTH);
             graph_renderer.render(graph);
         }
     }

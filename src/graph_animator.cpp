@@ -38,7 +38,8 @@ void GraphAnimator::evaluate_target_layout(Graph &graph, boost::circle_topology<
     boost::fruchterman_reingold_force_directed_layout(
         graph,
         boost::get(&Vertex::target_position, graph),
-        topology);
+        topology,
+        boost::force_pairs(boost::all_force_pairs()));
 }
 
 void GraphAnimator::update_layout(Graph &graph, boost::circle_topology<> topology, double step)

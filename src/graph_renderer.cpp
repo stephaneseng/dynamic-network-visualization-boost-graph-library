@@ -4,7 +4,7 @@
 #include "graph_renderer.hpp"
 
 const float WINDOW_HEIGHT = 720.0f;
-const float WINDOW_WIDTH = 1080.0f;
+const float WINDOW_WIDTH = 1280.0f;
 const float WINDOW_RATIO = WINDOW_WIDTH / WINDOW_HEIGHT;
 
 GraphRenderer::GraphRenderer(float eye_z, float topology_scaling) : eye_z_(eye_z), topology_scaling_(topology_scaling)

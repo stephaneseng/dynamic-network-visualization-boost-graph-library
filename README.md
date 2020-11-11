@@ -4,7 +4,7 @@ Generate dynamic networks visualizations using the [Boost Graph Library](https:/
 
 ![doc/2010-11-01-2011-04-01.gif](doc/2010-11-01-2011-04-01.gif)
 
-This project has been started as an alternative to [StephaneSeng/dynamic-network-generation-d3](https://github.com/StephaneSeng/dynamic-network-generation-d3).
+This project has been started as an alternative to [StephaneSeng/dynamic-network-visualization-d3](https://github.com/StephaneSeng/dynamic-network-visualization-d3).
 
 ## Getting started
 
